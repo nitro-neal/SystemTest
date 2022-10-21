@@ -27,14 +27,16 @@ jobs:
         repository: TBD54566975/dwn-relay
         path: dwn-relay
 
-    - name: Install nodejs
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+    - name: Start dwn-relay container
+      run: docker-compose -f "dwn-relay/docker-compose.yml" up -d --build
+#     - name: Install nodejs
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: 18
         
-    - name: Start dwn-relay
-      working-directory: ./dwn-relay
-      run: npm install && npm start
+#     - name: Start dwn-relay
+#       working-directory: ./dwn-relay
+#       run: npm install && npm start
     
     - name: Run dwn-relay teset
       working-directory: ./dwn-relay
