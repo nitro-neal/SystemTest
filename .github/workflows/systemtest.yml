@@ -24,7 +24,7 @@ jobs:
     - name: Checkout dwn-relay repo
       uses: actions/checkout@v3
       with:
-        ref: test/docker-compose
+        ref: test/docker-compose-2
         repository: TBD54566975/dwn-relay
         path: dwn-relay
 
@@ -41,7 +41,7 @@ jobs:
     
     - name: Run dwn-relay teset
       working-directory: ./dwn-relay
-      run: node --es-module-specifier-resolution=node src/sanity-checks/protocols-configure-test.js
+      run: node --es-module-specifier-resolution=node src/sanity-checks/protocols-configure-test.js && node --es-module-specifier-resolution=node src/sanity-checks/collections-write-test.js
 
     - name: Set up Go
       uses: actions/setup-go@v3
