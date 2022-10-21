@@ -24,6 +24,7 @@ jobs:
     - name: Checkout dwn-relay repo
       uses: actions/checkout@v3
       with:
+        ref: test/docker-compose
         repository: TBD54566975/dwn-relay
         path: dwn-relay
 
