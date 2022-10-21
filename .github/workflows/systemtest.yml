@@ -43,6 +43,7 @@ jobs:
 #       run: npm install && npm start
     
     - name: Install packages for test
+      working-directory: ./dwn-relay
       run: npm install
     
     - name: Run dwn-relay teset
