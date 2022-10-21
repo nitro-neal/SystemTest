@@ -42,6 +42,9 @@ jobs:
 #       working-directory: ./dwn-relay
 #       run: npm install && npm start
     
+    - name: Install packages for test
+      run: npm install
+    
     - name: Run dwn-relay teset
       working-directory: ./dwn-relay
       run: node --es-module-specifier-resolution=node src/sanity-checks/protocols-configure-test.js && node --es-module-specifier-resolution=node src/sanity-checks/collections-write-test.js
