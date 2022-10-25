@@ -15,59 +15,52 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout ssi-service repo
+    - name: Checkout SSI-Service Repo
       uses: actions/checkout@v3
       with:
         repository: TBD54566975/ssi-service
         path: ssi-service
         
-    - name: Checkout dwn-relay repo
+    - name: Checkout DWN-Relay Repo
       uses: actions/checkout@v3
       with:
-        ref: test/docker-compose-2
+        ref: test/dnw-steelthread-test
         repository: TBD54566975/dwn-relay
         path: dwn-relay
 
-    - name: Start ssi-service container
+    # Setup and seed the ssi-service data
+    - name: Start SSI-Service Container
       run: docker-compose -f "ssi-service/build/docker-compose.yml" up -d --build
       
-    - name: Start dwn-relay container
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19.2
+
+    - name: Install Mage
+      working-directory: ./ssi-service
+      run: go install github.com/magefile/mage
+
+    - name: End To End Test And Seed Data
+      working-directory: ./ssi-service
+      run: mage integration steelthread
+      
+    # Setup DWN-Relay and run end to end tests
+    - name: Start DWN-Relay Container
       run: docker-compose -f "dwn-relay/docker-compose.yml" up -d --build
-#     - name: Install nodejs
-#       uses: actions/setup-node@v3
-#       with:
-#         node-version: 18
-        
-#     - name: Start dwn-relay
-#       working-directory: ./dwn-relay
-#       run: npm install && npm start
-    
-    - name: Install packages for test
+
+    - name: Install Packages for Test
       working-directory: ./dwn-relay
       run: npm install
     
-    - name: Run dwn-relay teset
+    - name: Run DWN-Relay End To End Test
       working-directory: ./dwn-relay
-      run: node --es-module-specifier-resolution=node src/sanity-checks/protocols-configure-test.js && node --es-module-specifier-resolution=node src/sanity-checks/collections-write-test.js
+      run: node --es-module-specifier-resolution=node src/sanity-checks/protocols-configure-test.js && node --es-module-specifier-resolution=node src/sanity-checks/steelthread-test.js
 
-#     - name: Set up Go
-#       uses: actions/setup-go@v3
-#       with:
-#         go-version: 1.19.2
-
-#     - name: Install Mage
-#       working-directory: ./ssi-service
-#       run: go install github.com/magefile/mage
-
-
-#     - name: End To End Test
-#       working-directory: ./ssi-service
-#       run: mage integration steelthread
-
-    - name: Stop ssi-service containers
+    - name: Stop SSI-Service Container
       if: always()
       run: docker-compose -f "ssi-service/build/docker-compose.yml" down
       
-    - name: Stop dwn-relay containers
+    - name: Stop DWN-Relay Container
       if: always()
       run: docker-compose -f "dwn-relay/docker-compose.yml" down
