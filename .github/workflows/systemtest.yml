@@ -28,7 +28,7 @@ jobs:
         repository: TBD54566975/dwn-relay
         path: dwn-relay
 
-    # Setup and seed the ssi-service dataz
+    # Setup and seed the ssi-service data
     - name: Start SSI-Service Container
       run: docker-compose -f "ssi-service/build/docker-compose.yml" up -d --build
       
