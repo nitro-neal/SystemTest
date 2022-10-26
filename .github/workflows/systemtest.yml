@@ -45,6 +45,9 @@ jobs:
       working-directory: ./ssi-service
       run: mage integration steelthread
       
+    - name: Curl Test
+      run: curl http://localhost:8080/readiness
+      
     # Setup DWN-Relay and run end to end tests
     - name: Start DWN-Relay Container
       run: docker-compose -f "dwn-relay/docker-compose.yml" up -d --build
