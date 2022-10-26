@@ -48,7 +48,7 @@ jobs:
     - name: Curl Test
       run: curl http://localhost:8080/readiness
       
-    # Setup DWN-Relay and run end to end tests
+    # Setup DWN-Relay and run end to end testsz
     - name: Start DWN-Relay Container
       run: docker-compose -f "dwn-relay/docker-compose.yml" up -d --build
 
