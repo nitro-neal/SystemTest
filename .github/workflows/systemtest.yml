@@ -52,7 +52,10 @@ jobs:
     - name: Start DWN-Relay Container
       run: docker-compose -f "dwn-relay/docker-compose.yml" up -d --build
 
-    - name: Curl Test DWN-Relay
+    - name: Curl Test DWN-Relay 1
+      run: curl http://localhost:9001
+      
+    - name: Curl Test DWN-Relay 2
       run: curl http://localhost:9000
       
     - name: Install Packages for Test
